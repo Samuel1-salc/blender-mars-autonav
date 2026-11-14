@@ -1,0 +1,45 @@
+{
+  "grid": [
+    129,
+    193
+  ],
+  "vertices": 24897,
+  "quads": 24576,
+  "spacing_m": 0.125,
+  "extent_m": [
+    24,
+    16
+  ],
+  "routes": {
+    "A": {
+      "center_x_m": -8.0,
+      "width_m": 4,
+      "rise_m": 11.203320503234863,
+      "longitudinal_angle_deg": 34.99999974019966,
+      "local_longitudinal_angle_range_deg": [
+        15.734762713070893,
+        50.61599190391347
+      ]
+    },
+    "B": {
+      "center_x_m": 0.0,
+      "width_m": 4,
+      "rise_m": 4.287187099456787,
+      "longitudinal_angle_deg": 15.000000068689202,
+      "local_longitudinal_angle_range_deg": [
+        8.588556611558158,
+        23.42524554987517
+      ]
+    },
+    "C": {
+      "center_x_m": 8.0,
+      "width_m": 4,
+      "rise_m": 1.3998186588287354,
+      "longitudinal_angle_deg": 5.000000150730047,
+      "local_longitudinal_angle_range_deg": [
+        2.907517436368229,
+        7.157590459952304
+      ]
+    }
+  }
+}

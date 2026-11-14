@@ -1,0 +1,906 @@
+Capítulo 1: Introduction
+0:00
+0 segundo
+welcome to the material blending tutorial for blender and in here we're going to set up a shader that allows you to blend between different materials
+0:09
+9 segundos
+using vertex painting and a height map so this is exactly the same behavior that you can get in a game engine when you
+0:16
+16 segundos
+feed it an object and then use vertex colors to blend between different materials on the object so it's actually great to be able to
+0:23
+23 segundos
+preview that in real time in blender because it really allows you to fine tune the look and feel of your object directly in your modeling application
+0:32
+32 segundos
+in the tutorial i'm going to give you a brief overview of the shader editor and how to set up your materials set up your notes
+0:40
+40 segundos
+and then preview it either using ev or cycles in the viewport so let's get started so the first thing that we want to do is
+Capítulo 2: Enabling Node Wrangler
+0:48
+48 segundos
+actually enable the node wrangler add-on because it makes working in the shader editor much quicker and much easier and it
+0:57
+57 segundos
+contains a bunch of useful shortcuts so go to edit preferences and navigate to the add-ons category and in here just type in
+1:05
+1 minuto e 5 segundos
+node wrangler and then make sure that this add-on is enabled and has a checkbox in front of it
+1:13
+1 minuto e 13 segundos
+once you have done that um we can actually get started okay so um right now our viewport has
+Capítulo 3: Scene setup
+1:21
+1 minuto e 21 segundos
+the 3d view up here and the animation editor down here so what i'm going to do is i'm just going to move this up and then down here switch this to the
+1:30
+1 minuto e 30 segundos
+shader editor so just click up here and then go to the shader editor and as you can see it shows you the
+1:37
+1 minuto e 37 segundos
+material of the cube that's in your scene so up here you can see slot 1 and then material which means that this object
+1:45
+1 minuto e 45 segundos
+has the material with the name material assigned to it what i'm going to do is i'm actually going to delete the object and
+1:51
+1 minuto e 51 segundos
+then i'm going to add a new plane so shift a to add an object then go to mesh and then go to plane and then what we want to do is
+2:00
+2 minutos
+subdivide this a little bit so i'm going to go into edit mode and i'm going to go to edge mode and then i'm going to plus press ctrl r
+2:08
+2 minutos e 8 segundos
+to add subdivisions and then i'm going to use my mouse wheel and scroll up until we have 10 cuts and then i'm going to do
+2:16
+2 minutos e 16 segundos
+left mouse button to confirm and right mouse button to confirm again and we're going to do the same thing on the other axis ctrl r scroll
+2:24
+2 minutos e 24 segundos
+your mouse wheel until we have 10 cuts left mouse button right mouse button and now that we have done that we have a nice plane
+2:33
+2 minutos e 33 segundos
+that has a bunch of subdivisions as you can see this thing doesn't have a material applied yet and um what we can do is we can actually
+2:41
+2 minutos e 41 segundos
+create a new material if we wanted to by just pressing on new and now you can see it has created a material called material001
+2:50
+2 minutos e 50 segundos
+and for now that's fine but let's rename that and let's actually rename that to blend
+2:57
+2 minutos e 57 segundos
+underscore material and then once i do that you can see the name change and you can see the name change up here as well so that's our basic
+3:05
+3 minutos e 5 segundos
+material setup and next we're going to bring in some textures that we're going to use to blend between
+Capítulo 4: Importing textures
+3:13
+3 minutos e 13 segundos
+so before we load quixle bridge to bring a material into blender one thing we need to make sure is that our render engine is set to
+3:21
+3 minutos e 21 segundos
+cycles so go to your render properties and then up here you can change the render engine from ev to cycles so left click on it change it to cycles
+3:30
+3 minutos e 30 segundos
+cycles is a path-traced renderer that supports displacement maps ev is more like a game engine and doesn't support displacement maps by default
+3:39
+3 minutos e 39 segundos
+so if we don't set it to cycles quixl bridge will actually not export your displacement maps and since we need the displacement map to blend
+3:46
+3 minutos e 46 segundos
+between layer 1 and layer 2 of the material we need to make sure to set our render engine to cycles also i like to set the feature set to
+3:54
+3 minutos e 54 segundos
+experimental and i like to set the device to gpu compute which means it's going to use my gpu to render the viewport now that all of
+4:03
+4 minutos e 3 segundos
+that is adjusted you can load the quicksilbridge software so here it is you can download the
+4:10
+4 minutos e 10 segundos
+software from the quiksil website if you don't have it yet and then once you've installed it just go to edit and settings and change the dcc engine to blender
+4:20
+4 minutos e 20 segundos
+quick thing about the ui you can see various different materials what we want to do is we want to actually download a ground texture
+4:29
+4 minutos e 29 segundos
+so let's just type in ground to look for actual ground materials and then you can see i think these two look pretty promising
+4:37
+4 minutos e 37 segundos
+blending between these two materials should be fun so those are the materials we're going to use if you haven't downloaded a material or
+4:44
+4 minutos e 44 segundos
+an asset yet you will see it's being displayed on a gray background so this one i haven't downloaded and this one i haven't downloaded for example
+4:52
+4 minutos e 52 segundos
+if i hover over it i can click on the download icon in the upper right corner and once i do that it will download it once it's downloaded it will show up
+5:00
+5 minutos
+with a blue checkbox which means it's now in your local library and then you can click the export button to actually export it so what you want to do is you want to
+5:08
+5 minutos e 8 segundos
+hover over the rocky dot material and download it by clicking the download icon in the upper right corner you can see i've already done it so i'm
+5:16
+5 minutos e 16 segundos
+just going to left click and then in here you have the asset info that describes the material you can go to your download settings
+5:23
+5 minutos e 23 segundos
+make sure that albedo displacement normal ao and roughness is enabled uh in the export settings you can specify the
+5:30
+5 minutos e 30 segundos
+texture resolution that's going to be used to export it to blender and the texture format i'm going to set it to 4k and tga and then i want it to export to
+5:40
+5 minutos e 40 segundos
+blender once i'm happy with that i'm just going to click export and then it's going to take a second to actually export to blender
+5:47
+5 minutos e 47 segundos
+and then we can go here and as you can see nothing has really changed and that's because our plane still has the blend material aside now
+5:56
+5 minutos e 56 segundos
+we can switch to the new material by clicking in here and selecting the dry rocky ground material or we can go down here to the material
+6:05
+6 minutos e 5 segundos
+properties tab and switch between blend and the rocky ground material with that let's take a closer look at
+Capítulo 5: Shader graph overview
+6:12
+6 minutos e 12 segundos
+the shader editor and see what's going on in there so to be able to see the texture in the viewport let's switch to the material
+6:21
+6 minutos e 21 segundos
+preview viewport shading so left click on that to enable it and then you can see we can now see the texture on our object
+6:29
+6 minutos e 29 segundos
+and i also want to turn off the wireframe on the object so select it and then just click here and turn off wireframe
+6:36
+6 minutos e 36 segundos
+or use whatever hotkey you have assigned to it and then down here we have the shader editor so let's take a look at that and the
+6:45
+6 minutos e 45 segundos
+orange boxes are our textures that we have brought in and then essentially what's going on is we're specifying the uv coordinates that
+6:54
+6 minutos e 54 segundos
+are being used here and then here are our different texture maps here are some nodes that do some changes to the texture maps and
+7:02
+7 minutos e 2 segundos
+then here is the principled bsdf shader that gets fed the albedo ambient occlusion roughness and normal maps
+7:09
+7 minutos e 9 segundos
+and then we have the material output that gets fed the displacement information from the displacement map down here now um what we actually want
+7:17
+7 minutos e 17 segundos
+to do is we want to take a look at these nodes and see what they do so the ambient occlusion down here and the albedo map are being multiplied with
+7:25
+7 minutos e 25 segundos
+one another so you can see layer one is the albedo map layer two is the ambient occlusion map and the ambient occlusion map is being blended
+7:32
+7 minutos e 32 segundos
+with the blending mode multiply with a factor of 0.5 so if i change this by left clicking and dragging the mouse
+7:39
+7 minutos e 39 segundos
+you can see that the intensity of the ambient occlusion changes in the viewport so i can go from 0 all the way up to 1.
+7:46
+7 minutos e 46 segundos
+if i hold down shift it becomes more sensitive when moving the mouse if i hold down control it snaps to 0.1 increments
+7:54
+7 minutos e 54 segundos
+we want to make sure to leave this at point 5 for now and then the result of that multiplied node gets fed into
+8:01
+8 minutos e 1 segundo
+the base color slot of the shader the roughness map gets fed directly into the reference slot and the normal map gets fed into a
+8:09
+8 minutos e 9 segundos
+normal map node where you can specify what tangent space to use and you can change the strength of the normal map
+8:16
+8 minutos e 16 segundos
+so if i go down here and i change this to zero you can see the normal map's not being used at all i can change it to 0.25 and then you can
+8:24
+8 minutos e 24 segundos
+see it starts coming in i can change it to 0.75 it becomes more intense i can change it to 1 for its full effect
+8:32
+8 minutos e 32 segundos
+we want to leave that as 1 as well for the best results and then down here is our displacement map um the displacement map gets fed
+Capítulo 6: Displacement mapping
+8:39
+8 minutos e 39 segundos
+into a separate rgb node which then gets fed into the um displacement node and then here you can specify
+8:47
+8 minutos e 47 segundos
+the intensity of the displacement and the mid level and that get gets then fed into the material output slot now right now we can't see any
+8:56
+8 minutos e 56 segundos
+displacement in the viewport because we are in material preview mode if we change this to rendered mode we should get a little bit
+9:04
+9 minutos e 4 segundos
+of displacement on the object and there you go you can see we're getting some displacement on the object if i turn on my wireframe again you can see the original wireframe is still down
+9:12
+9 minutos e 12 segundos
+here and that's the displacement that we're getting through the shader um now because we do not have enough resolution in our
+9:20
+9 minutos e 20 segundos
+mesh we're actually not getting a ton of displacement yet so what we want to do is we want to select the mesh
+9:26
+9 minutos e 26 segundos
+and then go to modifiers so modifier properties and we're going to add a modifier and we are going to add
+9:34
+9 minutos e 34 segundos
+a subdivide modifier so subdivision surface we're going to set this to simple and
+9:43
+9 minutos e 43 segundos
+we're going to set the viewport levels to 2 which will increase the density of our mesh in the viewport let's actually crank it up to three and
+9:52
+9 minutos e 52 segundos
+then you can see with every change that we make the displacement becomes more and more realistic so right now we have more points to work with so the
+10:00
+10 minutos
+displacement actually becomes more interesting um to change the scale of the displacement
+10:06
+10 minutos e 6 segundos
+we can use the slider so if we crank it up to let's say one we get like a super intense result which we probably
+10:14
+10 minutos e 14 segundos
+don't want if we change it to 0.5 we get a less intense result and for now i'm just going to leave this at point one the mid level just changes where the
+10:23
+10 minutos e 23 segundos
+midpoint where the displacement map is being applied to is located and um i'm gonna leave that at zero as well so that's the basics for
+10:32
+10 minutos e 32 segundos
+controlling the shader um here we can specify the texture coordinates that are being used and since we do not want to do any changes
+10:40
+10 minutos e 40 segundos
+to the texture coordinates yet i'm not going to get into that but we're still going to leave them in here
+10:48
+10 minutos e 48 segundos
+since we do want to blend between two different materials we need to bring in a second set of textures into blender
+Capítulo 7: Creating a second material
+10:55
+10 minutos e 55 segundos
+so let's go back to quixler bridge type in ground up here again and we're going to use the dry mud floor 2x2 meters so download it
+11:04
+11 minutos e 4 segundos
+once it's downloaded click the export button and that will bring it to blender so give it a second to do that and then in here
+11:12
+11 minutos e 12 segundos
+you can see we now can switch between the dry rocky ground and the dry mud floor so if i do that you can see that my shader graph changes
+11:20
+11 minutos e 20 segundos
+and the assignment to the object changes before we move forward let's actually get rid of that subdivision modifier
+11:28
+11 minutos e 28 segundos
+and switch our render engine back to ev because this is a little bit faster and will allow us to see results a little bit
+11:35
+11 minutos e 35 segundos
+quicker so let's change the plane material to the rocky ground material because we've already organized our
+11:43
+11 minutos e 43 segundos
+shader graph in here a little bit better there's also snapping in here by the way so you can turn this on and then you can turn this to like node
+11:50
+11 minutos e 50 segundos
+x and y for example and then once you drag the nodes it will actually snap to the left or to the right or to the top or the
+12:00
+12 minutos
+bottom so you can also use g to move and then press x to constrain to the x axis
+12:07
+12 minutos e 7 segundos
+y to constrain to the y axis so all your 3d viewport hotkeys work in here as well let's turn snapping back off and let's actually bring in that second
+12:16
+12 minutos e 16 segundos
+set of textures so what we're going to do is we're going to make a duplicate of this shader so select everything but the material output by left clicking and dragging
+12:24
+12 minutos e 24 segundos
+and then left click on the principle bsdf and move it a little bit and then make sure you're hovering over the principle bsdf and press ctrl
+12:31
+12 minutos e 31 segundos
+c to copy and then we want to do control v to paste and it will paste the duplicate of the selected notes in place
+12:38
+12 minutos e 38 segundos
+so ctrl v and here's our duplicate and then i'm going to left click on this and move it down and then you can see here is our second
+12:48
+12 minutos e 48 segundos
+principle bsdf shader now in order to take or in order to have this rendered in the viewport
+12:55
+12 minutos e 55 segundos
+we need to plug it into the material output so let's go in here and let's actually move this down
+13:02
+13 minutos e 2 segundos
+and what we're going to do the first thing we want to do is actually get rid of that displacement so just left click on the displacement input here drag it to the left and just
+13:10
+13 minutos e 10 segundos
+let go of the left mouse button and then we're going to left click on the bsdf of the copy of our shader and drag that into the surface slot
+13:18
+13 minutos e 18 segundos
+so now this shader is being rendered in the viewport now obviously this is using the exact same inputs as the first shader so it's showing you the same image in
+13:27
+13 minutos e 27 segundos
+the viewport so we need to change that to change the texture just click here and then you can see that our texture
+13:34
+13 minutos e 34 segundos
+for this material is called uh omj and we want to switch it to ug40c which is that first material here which
+13:41
+13 minutos e 41 segundos
+is going to be the second material that we brought in so let's click on that and just go through and change all of the textures accordingly so this
+13:50
+13 minutos e 50 segundos
+is the roughness texture so let's change to the roughness texture this is the normal texture let's change to the normal texture
+13:58
+13 minutos e 58 segundos
+this is the displacement texture so let's change to the displacement texture and now you can see we have that second
+14:06
+14 minutos e 6 segundos
+material that's being rendered and then if we actually go here and plug in that first material
+14:15
+14 minutos e 15 segundos
+again it will change what's being rendered in the viewport and if we want to set it to the second material again
+14:22
+14 minutos e 22 segundos
+let's just plug in the second material so that's all it is we just created a duplicate of the shader and we can now switch between the two
+14:31
+14 minutos e 31 segundos
+different materials so in order to blend between the two different shaders that we have here we need to create a mix node so press
+Capítulo 8: Mixing shaders
+14:39
+14 minutos e 39 segundos
+shift a left mouse button on search and then type in mix and then select the mix shader node and this node allows you
+14:47
+14 minutos e 47 segundos
+to blend between two different inputs and have a factor which specifies the factor that is used
+14:54
+14 minutos e 54 segundos
+for blending the two different inputs so let's go up here and plug in the output of the first shader into the mix shader and let's move it
+15:03
+15 minutos e 3 segundos
+down here and plug in the output of the second shader into the second shader input of the mix shader and then plug the result of the
+15:12
+15 minutos e 12 segundos
+mix shader node into the surface node and then you can see the viewport will update and it's now blending halfway between shader 1 and shader 2.
+15:21
+15 minutos e 21 segundos
+if i set this to 0 it will fully display material 1 if i set it to 1 it will fully display material 2.
+15:29
+15 minutos e 29 segundos
+and here you can see i can just blend between the materials by using the slider now this is all cool but we do want to
+Capítulo 9: Vertex painting
+15:36
+15 minutos e 36 segundos
+blend we do want to control the blend using vertex colors so what we're going to do is we're going to bring in a new node
+15:44
+15 minutos e 44 segundos
+so shift a left click on search and then type in vertex color and this gives you a vertex color node
+15:52
+15 minutos e 52 segundos
+and we only want to use one channel to control the blending so we need to separate the vertex colors into the r g and b channel so let's get
+16:01
+16 minutos e 1 segundo
+another note for that left click on search and then type in separate and select separate rgb and then we're going to plug in the
+16:09
+16 minutos e 9 segundos
+color into the image slot and then we're going to plug in the result of the red channel into the factor of the mix shader
+16:16
+16 minutos e 16 segundos
+what that means is we can now control the blending using the red channel of the vertex colors that we paint on the mesh
+16:24
+16 minutos e 24 segundos
+let's actually start painting some vertex colors we can quickly do that by switching to paint mode or vertex paint mode up here
+16:32
+16 minutos e 32 segundos
+and then once you do that you will see the texture change so left click and you can see now the information in the second shader is
+16:41
+16 minutos e 41 segundos
+fully being displayed on the mesh the reason for that is by switching to vertex paint mode we have just added a set of vertex
+16:48
+16 minutos e 48 segundos
+colors to the object if i remove that again it goes back to the original layer now in the shader we have specified that
+16:56
+16 minutos e 56 segundos
+we want to use the red color channel to blend between shader 1 and shader 2 and by adding vertex colors we're flatting everything with white
+17:04
+17 minutos e 4 segundos
+and white is red one green one and blue one and as a result it's fully displaying whatever is in the second slot of the mix shader
+17:13
+17 minutos e 13 segundos
+if i switch to solid viewport mode i can actually show what's going on when painting the controls for painting are pretty
+17:21
+17 minutos e 21 segundos
+easy you can press f and hold down f and use the left mouse button to change the radius and you can use shift f to change the
+17:30
+17 minutos e 30 segundos
+strength you can also use the sliders up here so just however you want to do it i
+17:37
+17 minutos e 37 segundos
+recommend using the keyboard shortcuts because it's a little bit more intuitive up here you can specify the color
+17:45
+17 minutos e 45 segundos
+so what we want to do is switch from hsb to rgb and then bring this down to green 0 and blue 0 because we only want to paint in
+17:54
+17 minutos e 54 segundos
+the red channel and now when we start painting using the left mouse button you can see that we're filling the area with red and the first thing we
+18:02
+18 minutos e 2 segundos
+want to do is actually increase the radius and then fill everything with red and then bring the radius back down
+18:10
+18 minutos e 10 segundos
+and while painting we can hold down control to invert so instead of red it's painting black and if i let go of control it's painting
+18:19
+18 minutos e 19 segundos
+red again if i switch to the rendered viewport mode you can see that once i start painting and then once i hold down control and start painting i'm starting to reveal
+18:28
+18 minutos e 28 segundos
+the second layer or the first layer actually because we are fully looking at the second layer by default and then also i can use shift
+18:36
+18 minutos e 36 segundos
+f to change the strength so if i do that i can get a little bit of a softer blending and in order to see this a little bit better
+18:44
+18 minutos e 44 segundos
+let me actually scroll out switch back to object mode select the light here and then press alt
+18:51
+18 minutos e 51 segundos
+g to center it at the zero zero zero coordinates of our scene and then press g to move it and move it
+18:58
+18 minutos e 58 segundos
+a little bit over here so that we're getting a little bit of a nicer result in the viewport and then we can select the object again and go back to vertex paint mode
+19:07
+19 minutos e 7 segundos
+and then we can start um painting these textures and then depending on the strength like right now the strength is really really small so it takes me a lot of clicks to
+19:15
+19 minutos e 15 segundos
+actually paint in some color information so let me increase that and you can see now this is working a little bit better
+19:23
+19 minutos e 23 segundos
+so these are the basics for vertex painting fairly simple stuff i really like how blender is handling it
+19:30
+19 minutos e 30 segundos
+what we want to do though is we want to use the height information in our displacement map to blend between the two different layers and we also want to be able to
+19:39
+19 minutos e 39 segundos
+specify a blend factor so we want to be able to control how sharp our blending between the two different materials is
+19:46
+19 minutos e 46 segundos
+and in order to do that we need to add some more notes to our shader graph so let's do that next so next we want to add
+Capítulo 10: Height-based blending
+19:54
+19 minutos e 54 segundos
+the height map to the blending process and in order to do that we need to add some math notes so shift a
+20:02
+20 minutos e 2 segundos
+and type in math to look for math notes and this one we're going to set to subtract and then we're going to make two copies
+20:10
+20 minutos e 10 segundos
+of this so ctrl c ctrl v move that down ctrl v again move that over here
+20:18
+20 minutos e 18 segundos
+let me select all of them and move them a bit out of the way and then make a copy of that subtract node
+20:24
+20 minutos e 24 segundos
+and set this one to divide and this will all make sense in a little bit and then we also need a mix
+20:32
+20 minutos e 32 segundos
+rgb node so plug that in and then we're going to group all of these so left click and drag to select them and then ctrl
+20:40
+20 minutos e 40 segundos
+g to group and make a note group and let's connect the
+20:47
+20 minutos e 47 segundos
+color out to the group output and then go to node up here and then um change the interface so we
+20:54
+20 minutos e 54 segundos
+want to have three inputs one for the blend mask one for the height map and one for the falloff so type click on plus three times and then
+21:03
+21 minutos e 3 segundos
+the first one is gonna be blend mask and that's gonna be the result of the vertex colors second one is gonna be
+21:13
+21 minutos e 13 segundos
+a height map node and then the third one is just going to be falloff and for the output let's add
+21:20
+21 minutos e 20 segundos
+another one as well and call that one mask because that's the result and let's actually get rid of um
+21:30
+21 minutos e 30 segundos
+this one up here so let's plug that let's remove that let's plug the color into the mask and
+21:38
+21 minutos e 38 segundos
+let's just delete the color output and then all we need to do is um change
+21:45
+21 minutos e 45 segundos
+some settings here and connect these up so um this is just a math that drives the blending that we're gonna set up now
+21:52
+21 minutos e 52 segundos
+so the blend mask is gonna go into this slot but it's also going to go into the first slot down here and then we
+22:00
+22 minutos
+want to set the value on the subtract node to 1 and the fall off is going to go into the
+22:08
+22 minutos e 8 segundos
+value here and then the height map is just going to go into the value up here and then this
+22:16
+22 minutos e 16 segundos
+result is going to be dragged in here this result is going to be dragged in here this is going to go here this is going
+22:24
+22 minutos e 24 segundos
+to go to the color one looks like that one didn't connect so let's do that again and then what we're going to do is make
+22:32
+22 minutos e 32 segundos
+sure that this is set to 0.735 and let's check all of our notes right now the
+22:39
+22 minutos e 39 segundos
+mixing algorithm is set to mix we want to set this to add and um yeah this is subtract
+22:46
+22 minutos e 46 segundos
+this is divide this is subtract um the value here is one so yeah we should be good on that so
+22:54
+22 minutos e 54 segundos
+let's just go out of the group by pressing this icon up here and then you can see here's our note group with the different inputs
+23:01
+23 minutos e 1 segundo
+and our mask output and um let's make some space here and then what we're going to do is
+23:08
+23 minutos e 8 segundos
+we're going to put the note group before the mix shader um simply because we want
+23:15
+23 minutos e 15 segundos
+um to use the node group to drive the factor so the height or the blend mask is the
+23:24
+23 minutos e 24 segundos
+result of the red channel so let's feed that in and drag that out the height map is actually the displacement texture
+23:33
+23 minutos e 33 segundos
+so let's feed that into the heightmap slot make sure to drag it directly from the texture not from the separate rgb
+23:40
+23 minutos e 40 segundos
+and then the falloff is just a value that we are going to manually set and then another thing we
+23:48
+23 minutos e 48 segundos
+need to do is we need a ramp node so um look for color ramp and what we're going to do is we're
+23:55
+23 minutos e 55 segundos
+going to plug the mask into the color ramp which means it's going to take the output of the mask and it's going to color it from black to
+24:04
+24 minutos e 4 segundos
+white and then we're going to feed that result into the factor of the mix shader and once we do that we should get a result in the viewport
+24:12
+24 minutos e 12 segundos
+and if we now change the falloff value you can see that we can now change the blending from
+24:19
+24 minutos e 19 segundos
+um let's try 0.1 which is pretty harsh or we can try 0.7 which is pretty soft
+24:27
+24 minutos e 27 segundos
+so let's try 0.05 and we can use our vertex colors to blend
+24:36
+24 minutos e 36 segundos
+and we can also change the strength and then we can get some
+24:43
+24 minutos e 43 segundos
+harder and or some softer blending and if you want to change the look of the blend in general you can also
+24:51
+24 minutos e 51 segundos
+play with these um values in the color ramp here so um let's actually switch to falloff
+24:59
+24 minutos e 59 segundos
+to something like 0.5 and then start playing with these values and as you can see it's another way to just like
+25:06
+25 minutos e 6 segundos
+influence the look of the blending if you need to um we could have added this color ramp within the node group so that it's part of the node group and
+25:14
+25 minutos e 14 segundos
+we don't have it exposed but i like having it exposed because it gives you a quick way to just change the values or even just flip the texture so if you
+25:23
+25 minutos e 23 segundos
+want to invert the displacement map you can just invert these values and now it's basically flipping which layer is on top
+25:29
+25 minutos e 29 segundos
+which is sometimes useful so that's why i like to have it exposed so um that's basically it
+25:37
+25 minutos e 37 segundos
+we do have our blending setup um it's pretty cool uh works like in most
+25:44
+25 minutos e 44 segundos
+of the other game engines um that you um can be familiar with like unreal allows you to do setups like
+25:53
+25 minutos e 53 segundos
+this unity allows you to do setups like this and obviously you can get a lot more elaborate with all of this and now that we have the base blending
+Capítulo 11: Displacement blending
+26:02
+26 minutos e 2 segundos
+working the next thing that we need to look into is doing our displacement blending as well
+26:09
+26 minutos e 9 segundos
+so just like we did with two different shaders we also need to blend the displacement maps together now before we do that i want to show you some quick tips
+26:17
+26 minutos e 17 segundos
+um and since we activated the node wrangler add-on we can always preview a node in the viewport by ctrl shift left clicking on
+26:25
+26 minutos e 25 segundos
+the node so if i control shift and left click on the displacement node here i can see the result in the viewport if i click on the normal node i can see the
+26:33
+26 minutos e 33 segundos
+result of the normal node in the viewport if i click on the albedo node i can see the albedo map and if i click on the color ramp node i
+26:40
+26 minutos e 40 segundos
+can see the result of the colorant node so that's a quick way to preview things if you want to go back to your original result
+26:47
+26 minutos e 47 segundos
+just delete that viewer node and plug the shader back into the surface material output so let's blend the displacement maps
+26:55
+26 minutos e 55 segundos
+together this is displacement map one so let's move that down here and this is displacement map2 let's
+27:02
+27 minutos e 2 segundos
+move that over as well and then we're going to use a mix rgb because we're blending two color maps together and not two shaders so shift a
+27:11
+27 minutos e 11 segundos
+look for mix rgb and then we're gonna do factor one and factor two
+27:18
+27 minutos e 18 segundos
+and for the factor so for the blending we want to use the result of the color ramp which is um our blend mask if you
+27:27
+27 minutos e 27 segundos
+remember correctly and um then what we're going to do is we're going to plug the result of the color map into
+27:36
+27 minutos e 36 segundos
+the displacement slot and as you can see nothing has really changed and that's because we're still in the ev we're still using the ev
+27:45
+27 minutos e 45 segundos
+render engine so let's switch that back to cycles and we should be getting some displacement yep and we do need more
+27:54
+27 minutos e 54 segundos
+subdivisions on the geometry to get proper displacement so add a subdivision surface modifier and crank up the viewport levels to four
+28:04
+28 minutos e 4 segundos
+and now you can see we're getting some really nice displacement here and we can still modify the falloff value for example
+28:12
+28 minutos e 12 segundos
+we can go in here and paint on our mesh let's crank up the strength
+28:19
+28 minutos e 19 segundos
+and as you can see it's taking quite a bit of time to update now and that's because we're working with um pretty dense geometry because of the subdivision
+28:27
+28 minutos e 27 segundos
+modifier that's on our geo we can also change the scale of the two displacement um after two displacement maps so we can
+28:36
+28 minutos e 36 segundos
+set this 2.2 for example and this one 2.2 and now it's just more intense
+28:44
+28 minutos e 44 segundos
+or you can have different values as well so if you want to have 0.3 for the first layer and less for the second layer you can do that as well
+28:52
+28 minutos e 52 segundos
+and as you can see it's really powerful like this texture is actually really nice and displaces really nicely um one last thing we need to do
+29:00
+29 minutos
+to get the best quality in the viewport um go to material settings and um then we
+29:07
+29 minutos e 7 segundos
+are gonna go into the displacement slot
+29:14
+29 minutos e 14 segundos
+and then in here um under displacement so in the settings category you want to make sure that displacement is set to
+29:22
+29 minutos e 22 segundos
+displacement and bump that means that you're using both geometry displacement and the normal map if this is set to bump only you can see
+29:30
+29 minutos e 30 segundos
+we're only getting the normal map if it's set to displacement only we're only getting the geometry deformation if we set it to displacement and bump
+29:37
+29 minutos e 37 segundos
+we're getting the information from both passes so this is giving you the best result in the viewport
+Capítulo 12: Lighting and rendering
+29:46
+29 minutos e 46 segundos
+so to tweak the quality of the rendering just a little bit more one thing we can do is go back to object mode and then if we take a closer look you
+29:54
+29 minutos e 54 segundos
+can see we're getting some faceting here on the meshes and that's because our original object is not set to shade smooth so right click on the object and then
+30:03
+30 minutos e 3 segundos
+just turn on shade smooth and once you do that you can see the faceting goes away also let's go to the modifier tab and set the deformation to simple
+30:10
+30 minutos e 10 segundos
+so that we don't lose the definition of the mesh in the corners next thing we want to do is load in a hdri
+30:18
+30 minutos e 18 segundos
+background image so that we are getting some better lighting so switch in the shader editor from object to world
+30:26
+30 minutos e 26 segundos
+and then in here type shift a look for search and bring in an environment texture and nothing has changed yet because we
+30:35
+30 minutos e 35 segundos
+haven't loaded a texture and plugged it into hdri background yet one good resource for hdri images is hdrihaven.com
+30:43
+30 minutos e 43 segundos
+so in here you can download any of these textures and then plug them into your scene so let's do that i'm going to click on open
+30:52
+30 minutos e 52 segundos
+and navigate to the directory where i have downloaded my hdi image into and then select the image that i want to use and then plug that into the color
+31:00
+31 minutos
+slot of the background node and then once i do that it's going to take a second to calculate and then now you can see it's using the
+31:06
+31 minutos e 6 segundos
+hdii image to light our scene also the hri is now showing up in the background if you don't want that just go to your
+31:15
+31 minutos e 15 segundos
+render properties go to film down here and then set it to transparent and now we can quickly tweak the intensity of the um
+31:23
+31 minutos e 23 segundos
+hdri image so just go in here and if we set this to like a low value like 0.5 or something you can see that the hi
+31:32
+31 minutos e 32 segundos
+image is now not contributing as much to the scene anymore obviously you can still tweak the light so if you select the light in your outliner
+31:40
+31 minutos e 40 segundos
+and then for example reduce the intensity of the light to like 500 and then maybe up the intensity of the hdri image
+31:47
+31 minutos e 47 segundos
+you can kind of like tweak the look of your c i'm going to go back to what i had previously set this to 1000 and 0.25
+31:56
+31 minutos e 56 segundos
+and then let's also switch back the render engine to eb again so that you can see that the hdi image is influencing the object
+32:04
+32 minutos e 4 segundos
+in here too so just give it a second to change and once it has changed we can now see
+32:12
+32 minutos e 12 segundos
+the hdi image influencing the lighting in ev as well if we set it to zero there's no influence and then the more we
+32:19
+32 minutos e 19 segundos
+um the more we increase the strength the more the hdi images contribute so um
+32:26
+32 minutos e 26 segundos
+pretty easy to control there's also more settings that you can access specifically in ev so over here you can turn on a bunch
+32:34
+32 minutos e 34 segundos
+of post processing like ambient occlusion bloom screen space reflections motion blur all that good stuff um ambient occlusion won't do much right
+32:42
+32 minutos e 42 segundos
+now because we don't have any geometry that can actually influence one another so let's just add a cube and like scale that down and if we now
+32:51
+32 minutos e 51 segundos
+turn on ambient occlusion we're getting a little bit of contact ambi occlusion down here but we need to play with the values so
+32:58
+32 minutos e 58 segundos
+let's maybe increase the factor and also increase the distance and now you can see we're getting something here so
+33:09
+33 minutos e 9 segundos
+basically if you would have more objects in your scene um this would be even more uh visible so let me just exaggerate what's going
+33:17
+33 minutos e 17 segundos
+on but yeah there you go if i get rid of this cube obviously we don't have any ambient occlusion at all let's turn this back off and then one
+33:27
+33 minutos e 27 segundos
+last thing just if you wanted to make the surface look a little bit more interesting what you could do is just switch to select the object and switch to sculpt
+33:34
+33 minutos e 34 segundos
+mode and then turn off symmetry up here and then you can use the same controls as for vertex color painting
+33:41
+33 minutos e 41 segundos
+to like change the shape of your of your plane and make it look a little bit more interesting
+33:49
+33 minutos e 49 segundos
+so all good stuff
+33:52
+33 minutos e 52 segundos
+[Music]
+33:54
+33 minutos e 54 segundos
+let's take a look at one last thing let's go back to object mode now if you want to change the tiling of the
+Capítulo 13: Advanced control
+34:02
+34 minutos e 2 segundos
+textures so let's say you want the first layer to tile twice in comparison to the first layer to the second layer you can go into your
+34:10
+34 minutos e 10 segundos
+node network and then remember here is the texture coordinate node and then here's the mapping node and in the mapping node in the scale you
+34:18
+34 minutos e 18 segundos
+can actually change the scaling of the texture so if you want this to tile twice you can just set this to two two and two and now you can see um
+34:27
+34 minutos e 27 segundos
+it's actually half the resolution than it was before so if we switch this back to one it becomes sharper and then if we switch this to like 0.5
+34:39
+34 minutos e 39 segundos
+you can see it is now tiling twice and then that's basically how you can control the tiling of the different channels so
+34:47
+34 minutos e 47 segundos
+one and one is the default and then if you reduce the scale then it tiles more if you increase the scale it tiles less and the same is true for the second
+34:55
+34 minutos e 55 segundos
+layer so if you wanted to influence that you could just do it down here set this to like 0.25 and now you can see this is tiling a lot
+35:04
+35 minutos e 4 segundos
+more than the first layer and because these nodes are all set up correctly we can switch back to cycles if we wanted to and we're getting displacement that is
+35:13
+35 minutos e 13 segundos
+respecting the change in the mapping as well so yeah all good stuff that's
+35:19
+35 minutos e 19 segundos
+uh how you can control the tiling and then there's a ton of more things you could do in here
+35:26
+35 minutos e 26 segundos
+um you could have a third layer by just copying that layout and then just adding another mix shader and then
+35:34
+35 minutos e 34 segundos
+mixing that in with the original layers that we had pretty much possibilities are endless here blender's shader editor is really powerful
+35:42
+35 minutos e 42 segundos
+but this is just a basic setup that allows you to do material blending directly in the viewport of blender and you can basically preview
+35:51
+35 minutos e 51 segundos
+your mesh a little bit better by having a setup like this especially if you want to use vertex blending in the game engine so if we export this to unreal
+35:59
+35 minutos e 59 segundos
+this is just a really cool way to preview what it's going to look like in unreal so we're almost at the end of the
+36:06
+36 minutos e 6 segundos
+tutorial now in order for you to not have to set up this whole shader graph from scratch every time you want to create a
+Capítulo 14: Conclusion
+36:14
+36 minutos e 14 segundos
+material you can go to my gumroad and get the source file for this for free and what you're going to do is you're just
+36:21
+36 minutos e 21 segundos
+going to make a new scene and then append the shader from that blender file into that new scene to be able to use it one thing i want to make you guys aware
+36:29
+36 minutos e 29 segundos
+of before we before i show you how to do that is that each of these texture maps that we're using has a color space so you can see down
+36:38
+36 minutos e 38 segundos
+here it says srgb for the albedo map and then none color for everything else so this is important because the file
+36:46
+36 minutos e 46 segundos
+that i'm going to give you um will not include the quiksil textures obviously they belong to qixel and i can't just
+36:54
+36 minutos e 54 segundos
+add them to the tutorial so if you want to use them in unreal you can just make a quick sell account and um download them and use them in
+37:02
+37 minutos e 2 segundos
+unreal if you want to use them for your personal projects you are going to have to end up buying points and purchasing them for yourself but um
+37:09
+37 minutos e 9 segundos
+basically you're going to get a note set up that does not contain any of the textures and when you bring in those textures you have to make sure that the color space is set
+37:17
+37 minutos e 17 segundos
+to the correct setting so everything but albedo needs to be set to none color and then the albedo texture needs to be set to srgb
+37:25
+37 minutos e 25 segundos
+just keep that in mind so srgb for albedo non-color for ao none color for roughness none color for normal non-color for displacement so let's show
+37:34
+37 minutos e 34 segundos
+you how to append the material into your file so this is a brand new blender file and what you're going to do
+37:42
+37 minutos e 42 segundos
+is you're going to click on file append and then you're going to navigate to the directory where you have downloaded the
+37:50
+37 minutos e 50 segundos
+blender file that comes with the tutorial it's called two layer blend and then you just double click on it and then in here you can now see the scene
+37:58
+37 minutos e 58 segundos
+collection or the outliner you can see everything that's in the file and then you just navigate to materials and what you want to do is you want to
+38:06
+38 minutos e 6 segundos
+append the blend shader so double click on that and now that you've done that you can see that we can choose the blend shader over here
+38:14
+38 minutos e 14 segundos
+so let's just do that which will assign the blend shadow to the object and then we can add another screen and
+38:21
+38 minutos e 21 segundos
+switch this to shader editor and i'm going to give you a quick rundown i've spent some time kind of like organizing
+38:28
+38 minutos e 28 segundos
+things a little bit over here you have your uv tiling control where you can change the scale of the tiling and then here are the textures
+38:36
+38 minutos e 36 segundos
+themselves so here you're going to plug in your texture maps by just opening them or adding them and again make sure to set it to the correct color
+38:44
+38 minutos e 44 segundos
+space like i've just talked about and you have to do this for both layers and then you have your ambient occlusion intensity for layer one your normal
+38:52
+38 minutos e 52 segundos
+intensity for layer one your ao intensity for layer two normal intensity for layer two and then the blending setup is here so if you
+39:00
+39 minutos
+just want to use this part of the shadow you can copy that and bring it into your shader and then we have the displacement amount that you can control
+39:08
+39 minutos e 8 segundos
+down here and then all of that feeds into the material output so pretty simple setup um feel free to use it and i hope it's
+39:16
+39 minutos e 16 segundos
+useful for you thanks for watching and have a good rest of your day
+Sincronizar com o momento do vídeo
